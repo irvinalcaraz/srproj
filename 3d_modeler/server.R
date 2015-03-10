@@ -171,7 +171,7 @@ shinyServer(function(input, output){
         surface3d(Sepal.Length,Sepal.Width,as.matrix(heightIrisInt),col="blue",alpha=.5)
         axes3d()
         title3d(xlab="Sepal Length",ylab="Sepal Width",zlab="Sepal Area")
-      }else{
+      }else {
         par3d(scale=c(1,1,0.2),cex=.6)
         points3d(dfiris$Sepal.Length,dfiris$Sepal.Width,dfiris$Petal.Area,col = colorsirisCat)
         surface3d(Sepal.Length,Sepal.Width,as.matrix(heightIrisCat1),col="blue",alpha=.5)
