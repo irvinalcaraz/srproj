@@ -3,7 +3,7 @@ library(shinyBS)
 library(ggplot2)
 library(magrittr)
 library(ggvis)
-
+library(BH)
 ###A function to create random data with a certain correlation
 create = function(n,rho){
     
@@ -36,11 +36,36 @@ shinyServer(function(input,output,session){
     
   })
   
+  checker <- reactiveValues(cheat = "no")
+  
   observe({
     if(input$newdataset != 0){
       closeAlert(session,alertId="a")
+      checker$cheat <- "no"
     }
   })
+  
+  observe({
+    input$cheat
+    if(input$cheat!=0){
+      checker$cheat <- "yes"
+    }
+  })
+  
+  output$showcorr = renderUI({
+    
+    checker$cheat
+    isolate({
+      if (checker$cheat == "no"){
+        paste("")
+      }else{
+        dataCorr = data.frame(exp=unlist(correlated()[[1]]),res=unlist(correlated()[[2]]))
+        withMathJax()
+        paste0("The correct answer is ",round(cor(dataCorr$exp,dataCorr$res),1),".")     
+      }
+    })
+  })
+  
   
 #   output$correlationPlot <- renderPlot({
   observe({  
@@ -181,6 +206,8 @@ observe({
     
   })  
 
+#SSE stuff
+
 output$SSE = renderUI({
   
   input$go
@@ -201,7 +228,7 @@ output$SSE = renderUI({
 #         if(input$sseOrRsq == "Rsq"){
 #           h6(paste("The current R-sq from your inputs is",round(predRsquare,3),". The R-sq for the correct model is ",round(realRsquare,3),". Yours will be bit off since your are using rounded values."),align="center")
 #         }else{
-         h6(paste("The current SSE from your inputs is",round(predsse),". The SSE for the correct model is ",round(realsse),". Yours will be bit off since your are using rounded values."),align="center")  
+         h6(paste(summary(model),"The current SSE from your inputs is",round(predsse,3),". The SSE for the correct model is ",round(realsse,3),". Yours will be bit off since your are using rounded values."),align="center")
 #         }
         
       }    
@@ -219,7 +246,7 @@ output$realline = renderUI({
         reg.data = data.frame(expl=unlist(corr.dat()[[1]]),resp=unlist(corr.dat()[[2]]))
         model = lm(resp~expl,data=reg.data)
         withMathJax()
-        paste0("The correct answer is b0=",round(model[[1]][1]),", and b1=",round(model[[1]][2],2),".") 
+        paste0("The correct answer is b0=",round(model[[1]][1],2),", and b1=",round(model[[1]][2],2),".") 
 
     }
   })
@@ -235,7 +262,8 @@ output$realline = renderUI({
       coefs = data.frame(a=coef(model)[1],b=coef(model)[2])
       if(input$go != 0){
           
-          if(round(model[[1]][1])==input$b0 && round(model[[1]][2],2)==input$b1){
+          # if(round(model[[1]][1],1)==input$b0 && round(model[[1]][2],1)==input$b1){
+        if((input$b0 < model[[1]][1]+.05)&(input$b0 > model[[1]][1]-.05)&(input$b1 < model[[1]][2]+.05)&(input$b1 > model[[1]][2]-.05)){
            
                 createAlert(session,
                             inputId = "success",

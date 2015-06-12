@@ -3,11 +3,12 @@
 #     Author: Irvin Alcaraz
 # ------------------------------------------------
 
-library(shiny)
-library(shinyBS)
-library(ggplot2)
-library(ggvis)
-library(magrittr)
+if (!require("shiny")){install.packages("shiny")}
+if (!require("shinyBS")){install.packages("shinyBS")}
+if (!require("ggplot2")){install.packages("ggplot2")}
+if (!require("ggvis")){install.packages("ggvis")}
+if (!require("magrittr")){install.packages("magrittr")}
+if (!require("BH")){install.packages("BH")}
 
 shinyUI(navbarPage("Data games",
 
@@ -40,13 +41,14 @@ shinyUI(navbarPage("Data games",
               helpText('Guess the Correlation, \\(\\rho\\)'),
               sliderInput("rho","",min=-1,max=1,value=0,step=.1),
               actionButton("answer","Submit"),
+              actionButton("cheat","Show Answer"),
               
               div("Shiny app by", 
-                  a(href="facebook.com/irvinalcaraz",target="_blank", 
+                  a(href="https://www.linkedin.com/in/irvinalcaraz",target="_blank", 
                     "Irvin Alcaraz"),align="right", style = "font-size: 8pt"),
               
               div("Base R code by", 
-                  a(href="facebook.com/irvinalcaraz",target="_blank", 
+                  a(href="https://www.linkedin.com/in/irvinalcaraz",target="_blank", 
                     "Irvin Alcaraz"),align="right", style = "font-size: 8pt"),
               
               div("Shiny source files:",
@@ -60,7 +62,8 @@ shinyUI(navbarPage("Data games",
             mainPanel(
               bsAlert("correct"),
 #               plotOutput("correlationPlot")
-            ggvisOutput("correlationPlot")
+            ggvisOutput("correlationPlot"),
+            uiOutput("showcorr")
             )
             
             )),                                     
@@ -77,9 +80,9 @@ shinyUI(navbarPage("Data games",
       actionButton("getdata","New Data"),
       HTML("<hr style='height: 2px; color: #F3F3F3; background-color: #F3F3F3; border: none;'>"),
       HTML("<hr style='height: 2px; color: #F3F3F3; background-color: #F3F3F3; border: none;'>"),
-      helpText('The intercept, \\(\\hat{\\beta_0}\\) (rounded to the near whole number)'),
+      helpText('The intercept, \\(\\hat{\\beta_0}\\) (round to the nearest tenth)'),
       numericInput("b0","",value=0),
-      helpText('The slope, \\(\\hat{\\beta_1}\\) (rounded to two decimal places)'),
+      helpText('The slope, \\(\\hat{\\beta_1}\\) (round to the nearest tenth)'),
       numericInput("b1","",value=0),
       ##helpText("Assessment method"),
       ##radioButtons("sseOrRsq","",choices=c("Maximize \\(R^2\\)"="Rsq","Minimize \\(SSE\\)"="sse"),selected="Rsq"),
@@ -88,11 +91,11 @@ shinyUI(navbarPage("Data games",
       actionButton("showit","Show Answer"),
       
       div("Shiny app by", 
-          a(href="facebook.com/irvinalcaraz",target="_blank", 
+          a(href="https://www.linkedin.com/in/irvinalcaraz",target="_blank", 
             "Irvin Alcaraz"),align="right", style = "font-size: 8pt"),
       
       div("Base R code by", 
-          a(href="facebook.com/irvinalcaraz",target="_blank", 
+          a(href="https://www.linkedin.com/in/irvinalcaraz",target="_blank", 
             "Irvin Alcaraz"),align="right", style = "font-size: 8pt"),
       
       div("Shiny source files:",
@@ -119,7 +122,8 @@ shinyUI(navbarPage("Data games",
       bsAlert("success"),
       uiOutput("SSE"),
       plotOutput("regressionPlot"),
-      uiOutput("realline")
+      uiOutput("realline"),
+      verbatimTextOutput("TEST")
 
     )
     ))

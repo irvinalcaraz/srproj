@@ -4,11 +4,11 @@
 ##############################################
 
 
-if (!require("devtools"))
-  install.packages("devtools")
-
-
+if (!require("devtools")) install.packages("devtools")
+if (!require("shiny")) install.packages("shiny")
+if (!require("stringr")) install.packages("stringr")
 if (!require("shinysky")) devtools::install_github("ShinySky","AnalytixWare")
+
 library(shinysky)
 library(shiny)
 
@@ -30,16 +30,16 @@ shinyUI(fluidPage(
 						"Weibull" = "weibull"),selected="norm"),       
 						
           shinyalert("shinyalert1", TRUE, auto.close.after=5),
-					shinyalert("shinyalert2", TRUE, auto.close.after=5),
-					shinyalert("shinyalert3", TRUE, auto.close.after=5),
-					shinyalert("shinyalert4", TRUE, auto.close.after=5),
-					shinyalert("shinyalert5", TRUE, auto.close.after=5),
-					shinyalert("shinyalert6", TRUE, auto.close.after=5),
-					shinyalert("shinyalert7", TRUE, auto.close.after=5),
-					shinyalert("shinyalert8", TRUE, auto.close.after=5),
-					shinyalert("shinyalert9", TRUE, auto.close.after=5),
-					shinyalert("shinyalert10", TRUE, auto.close.after=5),
-					shinyalert("shinyalert11", TRUE, auto.close.after=5),
+# 					shinyalert("shinyalert2", TRUE, auto.close.after=5),
+# 					shinyalert("shinyalert3", TRUE, auto.close.after=5),
+# 					shinyalert("shinyalert4", TRUE, auto.close.after=5),
+# 					shinyalert("shinyalert5", TRUE, auto.close.after=5),
+# 					shinyalert("shinyalert6", TRUE, auto.close.after=5),
+# 					shinyalert("shinyalert7", TRUE, auto.close.after=5),
+# 					shinyalert("shinyalert8", TRUE, auto.close.after=5),
+# 					shinyalert("shinyalert9", TRUE, auto.close.after=5),
+# 					shinyalert("shinyalert10", TRUE, auto.close.after=5),
+# 					shinyalert("shinyalert11", TRUE, auto.close.after=5),
           
           conditionalPanel(condition = "input.dist=='beta'",
                           numericInput("p1.beta","First Shape",2,min=1)),
@@ -86,6 +86,8 @@ shinyUI(fluidPage(
 					
           HTML("<hr style='height: 2px; color: #F3F3F3; background-color: #F3F3F3; border: none;'>"),
 	        
+          shinyalert("probalert", TRUE, auto.close.after=5),
+
           radioButtons("type",label=h4("Define Shaded Area By"),
 	                    choices=c("Input percentile and calculate probability"="d",
 			     	                    "Input probability and calculate percentile"="p", "Nothing"="none"),selected="none"),
@@ -110,11 +112,11 @@ shinyUI(fluidPage(
 	        actionButton("go","Submit"),
             
 						div("Shiny app by", 
-						    a(href="facebook.com/irvinalcaraz",target="_blank", 
+						    a(href="https://www.linkedin.com/in/irvinalcaraz",target="_blank", 
 						      "Irvin Alcaraz"),align="right", style = "font-size: 8pt"),
 						
 						div("Base R code by", 
-						    a(href="facebook.com/irvinalcaraz",target="_blank", 
+						    a(href="https://www.linkedin.com/in/irvinalcaraz",target="_blank", 
 						      "Irvin Alcaraz"),align="right", style = "font-size: 8pt"),
 						
 						div("Shiny source files:",
@@ -127,7 +129,8 @@ shinyUI(fluidPage(
     ),
 
   mainPanel(
-      plotOutput("distPlot"),
+      plotOutput("distPlot")
+      ,
       
       tags$style(type="text/css",
                  ".shiny-output-error { visibility: hidden; }",
