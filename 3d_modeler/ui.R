@@ -3,12 +3,30 @@
 #     Author: Irvin Alcaraz
 # ------------------------------------------------
 options(rgl.useNULL=TRUE)
-if (!require("devtools")){install.packages("devtools")}
-if (!require("shiny")){install.packages("shiny")}
-if (!require("rgl")){install.packages("rgl")}
-if (!require("shinyRGL")){install.packages("shinyRGL")}
-if (!require("reshape2")){install.packages("reshape2")}
-if (!require("RColorBrewer")){install.packages("RColorBrewer")}
+if (!require("devtools")){
+  install.packages("devtools")
+  library("devtools")
+  }
+if (!require("shiny")){
+  install.packages("shiny")
+  library("shiny")
+  }
+if (!require("rgl")){
+  install.packages("rgl")
+  library("rgl")
+  }
+if (!require("shinyRGL")){
+  install.packages("shinyRGL")
+  library("shinyRGL")
+  }
+if (!require("reshape2")){
+  install.packages("reshape2")
+  library("reshape2")
+  }
+if (!require("RColorBrewer")){
+  install.packages("RColorBrewer")
+  library("RColorBrewer")
+  }
 
 shinyUI(navbarPage("Multiple Regression Visualization",
   tabPanel("3D Visualizer",                 

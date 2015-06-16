@@ -214,13 +214,23 @@ shinyServer(function(input, output, session) {
       
       ##These if statements take the value to be shaded and converts it
       ##to xvalues that will later be used by the polygon function
-      if (!is.null("input$shadeval2")){
-        xvalue1 = xvalue(input$shadeval1,input$type,input$dist,params)      
-        xvalue2 = xvalue(input$shadeval2,input$type,input$dist,params)
-      }else{
-        xvalue1 = xvalue(input$shadeval1,input$type,input$dist,params)  
+      if (input$type != 'none'){
+        
+        if (!is.null("input$shadeval2")){
+          xvalue1 = xvalue(input$shadeval1,input$type,input$dist,params)      
+          xvalue2 = xvalue(input$shadeval2,input$type,input$dist,params)
+          
+          if (xvalue1 > xvalue2){
+            tmp = xvalue1
+            xvalue1 = xvalue2
+            xvalue2 = tmp
+          }
+          
+        }else{
+          xvalue1 = xvalue(input$shadeval1,input$type,input$dist,params)  
+        }
       }
-      
+        
       
       ##These if statements draw the graphs based on the different distributions
       ##Some Distributions were easier to graph through a more specific method so 
